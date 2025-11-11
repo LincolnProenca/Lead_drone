@@ -46,7 +46,7 @@ void ReferenceGenerator::configNode()
 }
 
 void ReferenceGenerator::configPublishers(){
-    ref_cmd_pub = handle.advertise<std_msgs::Float64MultiArray>("/rl_control/ref_generator", 1);
+    ref_cmd_pub = handle.advertise<rl_control::Float64MultiArrayStamped>("/rl_control/ref_generator", 1);
     out_ref_pub = handle.advertise<geometry_msgs::Vector3Stamped>("/rl_control/output_reference", 1);
 
 }
@@ -125,23 +125,26 @@ void ReferenceGenerator::sendRefPos(double h){
     {
         output_ref.vector.x = (Cmx * xm).value(); 
         output_ref.vector.y = (Cmy * xm).value(); 
-        ref_msg.data.resize(5);
+        ref_msg.data.data.resize(5);
         for (int i = 0; i < 5; i++) 
         {
-            ref_msg.data[i] = xm(i);  
+            ref_msg.data.data[i] = xm(i);  
         }
     }
     else
     {
         output_ref.vector.x = (Cmx * xm).value() + yss;
         output_ref.vector.y = (Cmy * xm).value() + yss;
-        ref_msg.data.resize(4);
+        ref_msg.data.data.resize(4);
         for (int i = 0; i < 4; i++) 
         {
-            ref_msg.data[i] = xm(i);  
+            ref_msg.data.data[i] = xm(i);  
         }
     }
     
+    // set timestamp for the reference message
+    ref_msg.header.stamp = ros::Time::now();
+
     out_ref_pub.publish(output_ref);
     ref_cmd_pub.publish(ref_msg);
 

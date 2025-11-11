@@ -1,6 +1,7 @@
 <launch>
+    <rosparam file="$(find rl_control)/config/Parameters.yaml" command="load" />
     <node pkg="rosbag" type="record" name="rosbag_drone_control" 
-    args="record -o /container_volume/bags/LQT/ /rl_control/output_reference /dji_sdk/flight_control_setpoint_generic /dji_sdk/local_position /dji_sdk/velocity" output="screen"/>
+          args="record -o /container_volume/bags/LQT/ /rl_control/output_reference /dji_sdk/flight_control_setpoint_generic /dji_sdk/local_position /dji_sdk/velocity" output="screen"/>
 
 
     <node pkg="rl_control" type="LQTI_control_node" name="LQTI_control_node"/>

@@ -14,6 +14,7 @@
 
 #include <std_msgs/Float64MultiArray.h>
 #include <std_srvs/SetBool.h>
+#include "rl_control/Float64MultiArrayStamped.h"
 
 
 
@@ -28,7 +29,7 @@ private:
     void configService();
         ros::ServiceClient client_ref;
 
-    std_msgs::Float64MultiArray ref_msg;
+    rl_control::Float64MultiArrayStamped ref_msg;
     geometry_msgs::Vector3Stamped output_ref;   
     // geometry_msgs::Vector3 output_ref;   
     
